@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Anchor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
+  :root { --accent:#3b82f6;--accent-dark:#1d4ed8;--accent-mid:#2563eb;--accent-light:#93c5fd;--accent-pale:#dbeafe;--bg:#0a0f1e;--bg-card:#0d1b35;--text:#f0f6ff; }
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body { background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:background 0.4s; }
+  body::before { content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 10%,color-mix(in srgb,var(--accent) 10%,transparent) 0%,transparent 60%);pointer-events:none; }
+  .phone { width:390px;min-height:780px;background:linear-gradient(160deg,var(--bg-card) 0%,var(--bg) 60%);border-radius:44px;border:1.5px solid color-mix(in srgb,var(--accent) 22%,transparent);box-shadow:0 40px 80px rgba(0,0,0,0.6);position:relative;overflow:hidden;padding:52px 28px 100px;display:flex;flex-direction:column;gap:20px;animation:fadeIn 0.6s ease both;transition:all 0.4s; }
+  .phone::before { content:'';position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,var(--accent) 4%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) 4%,transparent) 1px,transparent 1px);background-size:32px 32px;pointer-events:none; }
+  @keyframes fadeIn { from{opacity:0;transform:scale(0.97) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)} }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
+  .header { animation:slideDown 0.5s 0.1s ease both;opacity:0; }
+  .header h2 { font-family:'Playfair Display',serif;font-size:26px;color:var(--text);margin-bottom:4px; }
+  .header p { font-size:13px;color:color-mix(in srgb,var(--accent-light) 50%,transparent); }
+  .section-label { font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:600; }
+  .theme-section { animation:slideDown 0.5s 0.2s ease both;opacity:0; }
+  .theme-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px; }
+  .theme-btn { display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;cursor:pointer;transition:all 0.2s ease;position:relative; }
+  .theme-btn:hover { background:rgba(255,255,255,0.08);transform:translateY(-2px); }
+  .theme-btn.active { border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent); }
+  .theme-btn.active::after { content:'✓';position:absolute;top:6px;right:8px;font-size:10px;color:var(--accent);font-weight:600; }
+  .theme-swatch { width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,255,255,0.15); }
+  .theme-name { font-size:10px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-align:center;line-height:1.2; }
+  .swatch-blue   { background:radial-gradient(circle at 35% 35%,#60a5fa,#1d4ed8); }
+  .swatch-red    { background:radial-gradient(circle at 35% 35%,#f87171,#991b1b); }
+  .swatch-purple { background:radial-gradient(circle at 35% 35%,#c084fc,#6b21a8); }
+  .swatch-orange { background:radial-gradient(circle at 35% 35%,#fb923c,#c2410c); }
+  .swatch-black  { background:radial-gradient(circle at 35% 35%,#a1a1aa,#18181b); }
+  .swatch-green  { background:radial-gradient(circle at 35% 35%,#4ade80,#15803d); }
+  .swatch-yellow { background:radial-gradient(circle at 35% 35%,#fde047,#a16207); }
+  .swatch-pink   { background:radial-gradient(circle at 35% 35%,#f472b6,#9d174d); }
+  .preview-bar { padding:16px 18px;background:color-mix(in srgb,var(--accent-dark) 25%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:14px;display:flex;align-items:center;gap:12px;animation:slideDown 0.5s 0.3s ease both;opacity:0;transition:all 0.4s; }
+  .preview-dot { width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;transition:background 0.4s; }
+  .preview-text { font-size:14px;color:var(--text);font-weight:400; }
+  .preview-text span { color:var(--accent-light);font-weight:500;transition:color 0.4s; }
+  .settings-section { animation:slideDown 0.5s 0.4s ease both;opacity:0; }
+  .setting-item { display:flex;align-items:center;justify-content:space-between;padding:15px 16px;background:rgba(255,255,255,0.04);border:1px solid color-mix(in srgb,var(--accent) 12%,transparent);border-radius:12px;margin-top:10px;transition:border-color 0.4s; }
+  .setting-left { display:flex;align-items:center;gap:12px; }
+  .setting-icon { font-size:18px; }
+  .setting-name { font-size:14px;color:var(--text);font-weight:400; }
+  .setting-sub { font-size:11px;color:color-mix(in srgb,var(--accent-light) 45%,transparent);margin-top:2px; }
+  .toggle { width:44px;height:24px;border-radius:12px;background:color-mix(in srgb,var(--accent) 30%,transparent);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);position:relative;cursor:pointer;transition:background 0.3s,border-color 0.3s;flex-shrink:0; }
+  .toggle.on { background:var(--accent);border-color:var(--accent); }
+  .toggle::after { content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:white;transition:transform 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.3); }
+  .toggle.on::after { transform:translateX(20px); }
+  .bottom-nav { position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:12px 0 20px;border-top:1px solid color-mix(in srgb,var(--accent) 12%,transparent);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px); }
+  .nav-btn { display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 12px;border-radius:10px;text-decoration:none;transition:background 0.2s; }
+  .nav-btn:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
+  .nav-btn span:first-child { font-size:18px; }
+  .nav-btn span:last-child { font-size:9px;color:color-mix(in srgb,var(--accent-light) 55%,transparent);letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif; }
+  .nav-btn.active span:last-child { color:var(--accent);font-weight:600; }
+</style>
+</head>
+<body>
+<script src="theme.js"></script>
+<script>
+  initTheme();
+  const themes = [
+    {key:'blue',  label:'Ocean',   swatch:'swatch-blue'},
+    {key:'red',   label:'Crimson', swatch:'swatch-red'},
+    {key:'purple',label:'Violet',  swatch:'swatch-purple'},
+    {key:'orange',label:'Ember',   swatch:'swatch-orange'},
+    {key:'black', label:'Obsidian',swatch:'swatch-black'},
+    {key:'green', label:'Forest',  swatch:'swatch-green'},
+    {key:'yellow',label:'Solar',   swatch:'swatch-yellow'},
+    {key:'pink',  label:'Rose',    swatch:'swatch-pink'},
+  ];
+  function buildGrid() {
+    const grid = document.getElementById('theme-grid');
+    const current = localStorage.getItem('anchor-theme') || 'blue';
+    grid.innerHTML = '';
+    themes.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'theme-btn' + (t.key === current ? ' active' : '');
+      btn.innerHTML = `<div class="theme-swatch ${t.swatch}"></div><span class="theme-name">${t.label}</span>`;
+      btn.onclick = () => {
+        setTheme(t.key);
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('preview-name').textContent = THEMES[t.key].name;
+      };
+      grid.appendChild(btn);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', () => {
+    buildGrid();
+    const current = localStorage.getItem('anchor-theme') || 'blue';
+    document.getElementById('preview-name').textContent = THEMES[current].name;
+    document.querySelectorAll('.toggle').forEach(tog => {
+      tog.addEventListener('click', () => tog.classList.toggle('on'));
+    });
+  });
+</script>
+
+<div class="phone">
+  <div class="header"><h2>Settings</h2><p>Customize your Anchor experience</p></div>
+  <div class="theme-section">
+    <div class="section-label">Color Theme</div>
+    <div class="theme-grid" id="theme-grid"></div>
+  </div>
+  <div class="preview-bar">
+    <div class="preview-dot"></div>
+    <div class="preview-text">Active theme: <span id="preview-name">Ocean Blue</span></div>
+  </div>
+  <div class="settings-section">
+    <div class="section-label">Preferences</div>
+    <div class="setting-item">
+      <div class="setting-left"><span class="setting-icon">⏱️</span><div><div class="setting-name">Pause Timer</div><div class="setting-sub">8-second delay before proceeding</div></div></div>
+      <div class="toggle on"></div>
+    </div>
+    <div class="setting-item">
+      <div class="setting-left"><span class="setting-icon">🫁</span><div><div class="setting-name">Breathe Prompt</div><div class="setting-sub">Show breathing reminder on pause</div></div></div>
+      <div class="toggle on"></div>
+    </div>
+    <div class="setting-item">
+      <div class="setting-left"><span class="setting-icon">💬</span><div><div class="setting-name">Daily Quote</div><div class="setting-sub">Show inspirational quote each day</div></div></div>
+      <div class="toggle on"></div>
+    </div>
+    <div class="setting-item">
+      <div class="setting-left"><span class="setting-icon">🔔</span><div><div class="setting-name">Notifications</div><div class="setting-sub">Weekly screen time recap</div></div></div>
+      <div class="toggle"></div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <a href="landing.html" class="nav-btn"><span>⚓</span><span>Home</span></a>
+    <a href="speedbump.html" class="nav-btn"><span>⏸</span><span>Pause</span></a>
+    <a href="companion.html" class="nav-btn"><span>💙</span><span>Support</span></a>
+    <a href="dashboard.html" class="nav-btn"><span>📊</span><span>Stats</span></a>
+    <a href="settings.html" class="nav-btn active"><span>⚙️</span><span>Settings</span></a>
+  </div>
+</div>
+</body>
+</html>

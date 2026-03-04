@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reflect — Anchor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  :root { --accent:#3b82f6;--accent-dark:#1d4ed8;--accent-mid:#2563eb;--accent-light:#93c5fd;--accent-pale:#dbeafe;--bg:#0a0f1e;--bg-card:#0d1b35;--text:#f0f6ff; }
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body { background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:background 0.4s; }
+  body::before { content:'';position:fixed;inset:0;background:radial-gradient(ellipse 50% 40% at 50% 0%,color-mix(in srgb,var(--accent) 14%,transparent) 0%,transparent 60%);pointer-events:none; }
+  .phone { width:390px;min-height:780px;background:linear-gradient(160deg,var(--bg-card) 0%,var(--bg) 70%);border-radius:44px;border:1.5px solid color-mix(in srgb,var(--accent) 20%,transparent);box-shadow:0 40px 80px rgba(0,0,0,0.6);position:relative;overflow:hidden;padding:52px 28px 100px;display:flex;flex-direction:column;gap:0;animation:fadeIn 0.6s ease both;transition:all 0.4s; }
+  @keyframes fadeIn { from{opacity:0;transform:scale(0.97) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)} }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
+  .pulse-ring { position:absolute;top:60px;left:50%;transform:translateX(-50%);width:80px;height:80px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);animation:ringPulse 2.5s ease-in-out infinite; }
+  .pulse-ring:nth-child(2) { width:110px;height:110px;animation-delay:0.5s;opacity:0.5;top:45px; }
+  @keyframes ringPulse { 0%,100%{transform:translateX(-50%) scale(1);opacity:0.3}50%{transform:translateX(-50%) scale(1.08);opacity:0.7} }
+  .app-icon { display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:32px;animation:slideDown 0.5s 0.1s ease both;opacity:0; }
+  .icon-circle { width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--accent-dark),var(--accent));display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 40%,transparent);position:relative;z-index:1;transition:background 0.4s; }
+  .app-name { font-size:12px;color:color-mix(in srgb,var(--accent-light) 55%,transparent);letter-spacing:0.12em;text-transform:uppercase; }
+  .questions { display:flex;flex-direction:column;gap:12px;margin-bottom:24px; }
+  .q-card { padding:18px 20px;border-radius:16px;animation:slideDown 0.5s ease both;opacity:0; }
+  .q-card:nth-child(1) { animation-delay:0.2s;background:rgba(255,255,255,0.05);border:1px solid color-mix(in srgb,var(--accent) 20%,transparent); }
+  .q-card:nth-child(2) { animation-delay:0.3s;background:color-mix(in srgb,var(--accent) 8%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent); }
+  .q-text { font-family:'Playfair Display',serif;font-size:18px;color:var(--text);line-height:1.35; }
+  .q-text em { color:var(--accent-light);font-style:italic; }
+  .alt-section { margin-bottom:20px;animation:slideDown 0.5s 0.4s ease both;opacity:0; }
+  .alt-header { display:flex;align-items:center;gap:8px;margin-bottom:10px; }
+  .alt-header-line { flex:1;height:1px;background:color-mix(in srgb,var(--accent) 16%,transparent); }
+  .alt-header-text { font-size:10px;color:color-mix(in srgb,var(--accent-light) 45%,transparent);letter-spacing:0.12em;text-transform:uppercase; }
+  .alt-item { display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid color-mix(in srgb,var(--accent) 12%,transparent);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.2s ease; }
+  .alt-item:hover { background:color-mix(in srgb,var(--accent) 10%,transparent);border-color:color-mix(in srgb,var(--accent) 35%,transparent);transform:translateX(4px); }
+  .alt-icon { font-size:16px; }
+  .alt-text { font-size:13px;color:var(--accent-pale); }
+  .alt-arrow { margin-left:auto;color:color-mix(in srgb,var(--accent) 45%,transparent);font-size:12px; }
+  .motivation { background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 15%,transparent);border-radius:12px;padding:14px 16px;margin-bottom:20px;animation:slideDown 0.5s 0.45s ease both;opacity:0; }
+  .motivation p { font-size:13px;color:color-mix(in srgb,var(--accent-light) 72%,transparent);line-height:1.5;font-style:italic; }
+  .no-shame { text-align:center;font-size:12px;color:color-mix(in srgb,var(--accent-light) 38%,transparent);margin-bottom:20px;letter-spacing:0.04em;animation:slideDown 0.5s 0.5s ease both;opacity:0; }
+  .buttons { display:flex;flex-direction:column;gap:10px;animation:slideDown 0.5s 0.55s ease both;opacity:0; }
+  .btn-focus { width:100%;padding:16px;background:linear-gradient(135deg,var(--accent-dark),var(--accent-mid));border:none;border-radius:14px;color:white;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;letter-spacing:0.04em;box-shadow:0 6px 24px color-mix(in srgb,var(--accent) 35%,transparent);transition:all 0.25s ease; }
+  .btn-focus:hover { filter:brightness(1.1);transform:translateY(-1px); }
+  .btn-proceed { width:100%;padding:14px;background:transparent;border:1px solid rgba(239,68,68,0.3);border-radius:14px;color:rgba(252,165,165,0.7);font-size:13px;font-family:'DM Sans',sans-serif;font-weight:400;cursor:pointer;letter-spacing:0.04em;transition:all 0.25s ease; }
+  .btn-proceed:hover { border-color:rgba(239,68,68,0.6);color:#f87171;background:rgba(239,68,68,0.05); }
+  .breathe { text-align:center;font-size:11px;color:color-mix(in srgb,var(--accent-light) 22%,transparent);letter-spacing:0.12em;text-transform:uppercase;margin-top:12px;animation:breathePulse 3s ease-in-out infinite; }
+  @keyframes breathePulse { 0%,100%{opacity:0.3}50%{opacity:0.8} }
+  .bottom-nav { position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:12px 0 20px;border-top:1px solid color-mix(in srgb,var(--accent) 12%,transparent);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px); }
+  .nav-btn { display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 12px;border-radius:10px;text-decoration:none;transition:background 0.2s; }
+  .nav-btn:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
+  .nav-btn span:first-child { font-size:18px; }
+  .nav-btn span:last-child { font-size:9px;color:color-mix(in srgb,var(--accent-light) 55%,transparent);letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif; }
+  .nav-btn.active span:last-child { color:var(--accent);font-weight:600; }
+</style>
+</head>
+<body>
+<script src="theme.js"></script><script>initTheme();</script>
+<div class="phone">
+  <div class="pulse-ring"></div><div class="pulse-ring"></div>
+  <div class="app-icon"><div class="icon-circle">⚓</div><span class="app-name">Anchor</span></div>
+  <div class="questions">
+    <div class="q-card"><div class="q-text">"Is this <em>what you want?</em>"</div></div>
+    <div class="q-card"><div class="q-text">"Is this preventing you from becoming <em>who you want to be?</em>"</div></div>
+  </div>
+  <div class="alt-section">
+    <div class="alt-header"><div class="alt-header-line"></div><span class="alt-header-text">Instead</span><div class="alt-header-line"></div></div>
+    <div class="alt-item"><span class="alt-icon">📞</span><span class="alt-text">Talk to a loved one</span><span class="alt-arrow">›</span></div>
+    <div class="alt-item"><span class="alt-icon">🌿</span><span class="alt-text">Take a walk alone; reflect</span><span class="alt-arrow">›</span></div>
+    <div class="alt-item"><span class="alt-icon">🍳</span><span class="alt-text">Make yourself a meal</span><span class="alt-arrow">›</span></div>
+  </div>
+  <div class="motivation"><p>"The average person spends 7 years of their life on their phone. What would you do with 7 years?"</p></div>
+  <div class="no-shame">the choice is up to you — there's no shame</div>
+  <div class="buttons">
+    <button class="btn-focus">🎯 Enter Focus Mode</button>
+    <button class="btn-proceed">Proceed anyway →</button>
+  </div>
+  <div class="breathe">· breathe ·</div>
+  <div class="bottom-nav">
+    <a href="landing.html" class="nav-btn"><span>⚓</span><span>Home</span></a>
+    <a href="speedbump.html" class="nav-btn"><span>⏸</span><span>Pause</span></a>
+    <a href="companion.html" class="nav-btn"><span>💙</span><span>Support</span></a>
+    <a href="dashboard.html" class="nav-btn"><span>📊</span><span>Stats</span></a>
+    <a href="settings.html" class="nav-btn"><span>⚙️</span><span>Settings</span></a>
+  </div>
+</div>
+</body>
+</html>

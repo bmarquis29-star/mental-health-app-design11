@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — Anchor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  :root { --accent:#3b82f6;--accent-dark:#1d4ed8;--accent-mid:#2563eb;--accent-light:#93c5fd;--accent-pale:#dbeafe;--bg:#0a0f1e;--bg-card:#0d1b35;--text:#f0f6ff; }
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body { background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:background 0.4s; }
+  body::before { content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 30% 20%,color-mix(in srgb,var(--accent) 12%,transparent) 0%,transparent 60%);pointer-events:none; }
+  .phone { width:390px;min-height:780px;background:linear-gradient(160deg,var(--bg-card) 0%,var(--bg) 60%);border-radius:44px;border:1.5px solid color-mix(in srgb,var(--accent) 22%,transparent);box-shadow:0 40px 80px rgba(0,0,0,0.6);position:relative;overflow:hidden;padding:52px 28px 100px;display:flex;flex-direction:column;gap:18px;animation:fadeIn 0.6s ease both;transition:all 0.4s; }
+  @keyframes fadeIn { from{opacity:0;transform:scale(0.97) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)} }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
+  .nav { display:flex;align-items:center;gap:10px; }
+  .nav-dot { width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent-dark),var(--accent));display:flex;align-items:center;justify-content:center;font-size:18px;transition:background 0.4s; }
+  .nav-name { font-size:13px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;font-weight:500; }
+  .exceeded-card { background:rgba(255,255,255,0.04);border-radius:16px;padding:18px 20px;border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);animation:slideDown 0.5s 0.1s ease both;opacity:0; }
+  .exceeded-label { font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:6px; }
+  .exceeded-text { font-family:'Lora',serif;font-size:20px;color:var(--text);line-height:1.3; }
+  .warm-msg { background:linear-gradient(135deg,var(--accent-dark),var(--accent-mid));border-radius:16px;padding:18px 20px;box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 25%,transparent);animation:slideDown 0.5s 0.2s ease both;opacity:0;transition:background 0.4s; }
+  .warm-msg p { font-size:15px;color:rgba(255,255,255,0.9);line-height:1.6;font-weight:300; }
+  .quote-card { background:rgba(255,255,255,0.04);border-radius:16px;padding:20px;border-left:3px solid var(--accent);animation:slideDown 0.5s 0.3s ease both;opacity:0; }
+  .quote-tag { font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-light);font-weight:500;margin-bottom:8px; }
+  .quote-text { font-family:'Lora',serif;font-size:16px;font-style:italic;color:var(--text);line-height:1.6; }
+  .quote-author { font-size:12px;color:var(--accent-light);margin-top:8px;font-weight:500; }
+  .suggestion-label { font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb,var(--accent-light) 65%,transparent);font-weight:500;animation:slideDown 0.5s 0.35s ease both;opacity:0; }
+  .alternatives { display:flex;flex-direction:column;gap:10px;animation:slideDown 0.5s 0.4s ease both;opacity:0; }
+  .alt-item { display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid color-mix(in srgb,var(--accent) 16%,transparent);border-radius:14px;cursor:pointer;transition:all 0.2s ease; }
+  .alt-item:hover { background:color-mix(in srgb,var(--accent) 12%,transparent);border-color:color-mix(in srgb,var(--accent) 38%,transparent);transform:translateX(4px); }
+  .alt-icon { width:36px;height:36px;border-radius:10px;background:color-mix(in srgb,var(--accent-dark) 35%,transparent);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0; }
+  .alt-text { font-size:14px;color:var(--accent-pale);font-weight:400; }
+  .alt-arrow { margin-left:auto;color:color-mix(in srgb,var(--accent-light) 55%,transparent);font-size:14px; }
+  .bottom-nav { position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:12px 0 20px;border-top:1px solid color-mix(in srgb,var(--accent) 12%,transparent);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px); }
+  .nav-btn { display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 12px;border-radius:10px;text-decoration:none;transition:background 0.2s; }
+  .nav-btn:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
+  .nav-btn span:first-child { font-size:18px; }
+  .nav-btn span:last-child { font-size:9px;color:color-mix(in srgb,var(--accent-light) 55%,transparent);letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif; }
+  .nav-btn.active span:last-child { color:var(--accent);font-weight:600; }
+</style>
+</head>
+<body>
+<script src="theme.js"></script><script>initTheme();</script>
+<div class="phone">
+  <div class="nav"><div class="nav-dot">⚓</div><span class="nav-name">Anchor</span></div>
+  <div class="exceeded-card"><div class="exceeded-label">Heads up</div><div class="exceeded-text">You've exceeded your limit.</div></div>
+  <div class="warm-msg"><p>Everybody makes mistakes — it's not an issue. You're here, and that already means something. 💙</p></div>
+  <div class="quote-card">
+    <div class="quote-tag">Daily inspiration</div>
+    <div class="quote-text">"Almost everything will work again if you unplug it for a few minutes — including you."</div>
+    <div class="quote-author">— Anne Lamott</div>
+  </div>
+  <div class="suggestion-label">You can do something else in the meantime</div>
+  <div class="alternatives">
+    <div class="alt-item"><div class="alt-icon">📞</div><span class="alt-text">Talk to a loved one</span><span class="alt-arrow">›</span></div>
+    <div class="alt-item"><div class="alt-icon">🌿</div><span class="alt-text">Take a walk alone; reflect</span><span class="alt-arrow">›</span></div>
+    <div class="alt-item"><div class="alt-icon">🍳</div><span class="alt-text">Make yourself a meal</span><span class="alt-arrow">›</span></div>
+  </div>
+  <div class="bottom-nav">
+    <a href="landing.html" class="nav-btn"><span>⚓</span><span>Home</span></a>
+    <a href="speedbump.html" class="nav-btn"><span>⏸</span><span>Pause</span></a>
+    <a href="companion.html" class="nav-btn active"><span>💙</span><span>Support</span></a>
+    <a href="dashboard.html" class="nav-btn"><span>📊</span><span>Stats</span></a>
+    <a href="settings.html" class="nav-btn"><span>⚙️</span><span>Settings</span></a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stats — Anchor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap');
+  :root { --accent:#3b82f6;--accent-dark:#1d4ed8;--accent-mid:#2563eb;--accent-light:#93c5fd;--accent-pale:#dbeafe;--bg:#0a0f1e;--bg-card:#0d1b35;--text:#f0f6ff; }
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body { background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:background 0.4s; }
+  body::before { content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 10%,color-mix(in srgb,var(--accent) 10%,transparent) 0%,transparent 60%);pointer-events:none; }
+  .phone { width:390px;min-height:780px;background:linear-gradient(160deg,var(--bg-card) 0%,var(--bg) 60%);border-radius:44px;border:1.5px solid color-mix(in srgb,var(--accent) 20%,transparent);box-shadow:0 40px 80px rgba(0,0,0,0.6);position:relative;overflow:hidden;padding:52px 24px 100px;display:flex;flex-direction:column;gap:14px;animation:fadeIn 0.6s ease both;transition:all 0.4s; }
+  @keyframes fadeIn { from{opacity:0;transform:scale(0.97) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)} }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
+  .header { display:flex;justify-content:space-between;align-items:center;animation:slideDown 0.5s 0.1s ease both;opacity:0; }
+  .header-left h2 { font-family:'Playfair Display',serif;font-size:22px;color:var(--text); }
+  .header-left p { font-size:12px;color:color-mix(in srgb,var(--accent-light) 55%,transparent);margin-top:2px; }
+  .header-icon { width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent-dark),var(--accent));display:flex;align-items:center;justify-content:center;font-size:16px;transition:background 0.4s; }
+  .recap-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;animation:slideDown 0.5s 0.2s ease both;opacity:0; }
+  .recap-card { background:rgba(255,255,255,0.04);border:1px solid color-mix(in srgb,var(--accent) 15%,transparent);border-radius:14px;padding:14px;transition:border-color 0.4s; }
+  .recap-card.highlight { background:color-mix(in srgb,var(--accent-dark) 25%,transparent);border-color:color-mix(in srgb,var(--accent) 35%,transparent); }
+  .recap-label { font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb,var(--accent-light) 55%,transparent);margin-bottom:6px; }
+  .recap-value { font-size:22px;font-weight:600;color:var(--text);line-height:1; }
+  .recap-value span { font-size:12px;font-weight:300;color:color-mix(in srgb,var(--accent-light) 60%,transparent);margin-left:2px; }
+  .recap-change { font-size:11px;margin-top:4px;color:#4ade80; }
+  .recap-change.bad { color:#f87171; }
+  .chart-section { background:rgba(255,255,255,0.03);border:1px solid color-mix(in srgb,var(--accent) 12%,transparent);border-radius:14px;padding:16px;animation:slideDown 0.5s 0.3s ease both;opacity:0; }
+  .chart-label { font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb,var(--accent-light) 55%,transparent);margin-bottom:14px; }
+  .bars { display:flex;align-items:flex-end;gap:6px;height:60px; }
+  .bar-wrap { flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end; }
+  .bar { width:100%;border-radius:4px 4px 0 0;background:color-mix(in srgb,var(--accent) 30%,transparent);animation:growUp 0.6s ease both;transition:background 0.4s; }
+  .bar.today { background:linear-gradient(180deg,var(--accent),var(--accent-dark)); }
+  @keyframes growUp { from{transform:scaleY(0);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom} }
+  .bar-day { font-size:9px;color:color-mix(in srgb,var(--accent-light) 45%,transparent);text-transform:uppercase;letter-spacing:0.06em; }
+  .quote-card { background:linear-gradient(135deg,var(--accent-dark),var(--accent-mid));border-radius:14px;padding:16px 18px;box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 20%,transparent);animation:slideDown 0.5s 0.35s ease both;opacity:0;transition:background 0.4s; }
+  .quote-tag { font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px; }
+  .quote-text { font-size:13px;color:rgba(255,255,255,0.9);line-height:1.5;font-style:italic;font-weight:300; }
+  .life-card { background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:14px;padding:14px 16px;animation:slideDown 0.5s 0.4s ease both;opacity:0; }
+  .life-label { font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(252,165,165,0.6);margin-bottom:6px; }
+  .life-value { font-size:15px;color:#fca5a5;font-weight:400;line-height:1.4; }
+  .life-value strong { font-weight:600;color:#f87171; }
+  .awards-section { animation:slideDown 0.5s 0.45s ease both;opacity:0; }
+  .awards-label { font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb,var(--accent-light) 55%,transparent);margin-bottom:10px; }
+  .awards-row { display:flex;gap:10px; }
+  .award { flex:1;background:rgba(255,255,255,0.04);border:1px solid color-mix(in srgb,var(--accent) 15%,transparent);border-radius:12px;padding:12px 8px;text-align:center; }
+  .award-icon { font-size:22px; }
+  .award-name { font-size:10px;color:color-mix(in srgb,var(--accent-light) 60%,transparent);margin-top:4px; }
+  .bottom-nav { position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:12px 0 20px;border-top:1px solid color-mix(in srgb,var(--accent) 12%,transparent);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px); }
+  .nav-btn { display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 12px;border-radius:10px;text-decoration:none;transition:background 0.2s; }
+  .nav-btn:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
+  .nav-btn span:first-child { font-size:18px; }
+  .nav-btn span:last-child { font-size:9px;color:color-mix(in srgb,var(--accent-light) 55%,transparent);letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif; }
+  .nav-btn.active span:last-child { color:var(--accent);font-weight:600; }
+</style>
+</head>
+<body>
+<script src="theme.js"></script><script>initTheme();</script>
+<div class="phone">
+  <div class="header"><div class="header-left"><h2>Dashboard</h2><p>Monday, March 2</p></div><div class="header-icon">⚓</div></div>
+  <div class="recap-grid">
+    <div class="recap-card highlight"><div class="recap-label">Today</div><div class="recap-value">2h 14<span>min</span></div><div class="recap-change bad">↑ 22 min vs yesterday</div></div>
+    <div class="recap-card"><div class="recap-label">This week</div><div class="recap-value">11h<span>total</span></div><div class="recap-change">↓ 1.5h vs last week</div></div>
+    <div class="recap-card"><div class="recap-label">This month</div><div class="recap-value">38h<span>total</span></div><div class="recap-change">↓ 4h vs last month</div></div>
+    <div class="recap-card"><div class="recap-label">This year</div><div class="recap-value">94h<span>so far</span></div><div class="recap-change bad">On pace for 564h</div></div>
+  </div>
+  <div class="chart-section">
+    <div class="chart-label">Daily screen time — this week</div>
+    <div class="bars">
+      <div class="bar-wrap"><div class="bar" style="height:40px;animation-delay:0.1s"></div><div class="bar-day">M</div></div>
+      <div class="bar-wrap"><div class="bar" style="height:55px;animation-delay:0.15s"></div><div class="bar-day">T</div></div>
+      <div class="bar-wrap"><div class="bar" style="height:30px;animation-delay:0.2s"></div><div class="bar-day">W</div></div>
+      <div class="bar-wrap"><div class="bar" style="height:50px;animation-delay:0.25s"></div><div class="bar-day">T</div></div>
+      <div class="bar-wrap"><div class="bar" style="height:45px;animation-delay:0.3s"></div><div class="bar-day">F</div></div>
+      <div class="bar-wrap"><div class="bar" style="height:58px;animation-delay:0.35s"></div><div class="bar-day">S</div></div>
+      <div class="bar-wrap"><div class="bar today" style="height:38px;animation-delay:0.4s"></div><div class="bar-day" style="color:var(--accent)">S</div></div>
+    </div>
+  </div>
+  <div class="quote-card"><div class="quote-tag">Daily quote</div><div class="quote-text">"The key is not to prioritize what's on your schedule, but to schedule your priorities."</div></div>
+  <div class="life-card"><div class="life-label">Time perspective</div><div class="life-value">At this pace, you'll spend <strong>23 days</strong> on your phone this year. That's 23 days you won't get back.</div></div>
+  <div class="awards-section">
+    <div class="awards-label">Awards</div>
+    <div class="awards-row">
+      <div class="award"><div class="award-icon">🌱</div><div class="award-name">First step</div></div>
+      <div class="award"><div class="award-icon">🔥</div><div class="award-name">3-day streak</div></div>
+      <div class="award" style="opacity:0.35"><div class="award-icon">⭐</div><div class="award-name">1 week goal</div></div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <a href="landing.html" class="nav-btn"><span>⚓</span><span>Home</span></a>
+    <a href="speedbump.html" class="nav-btn"><span>⏸</span><span>Pause</span></a>
+    <a href="companion.html" class="nav-btn"><span>💙</span><span>Support</span></a>
+    <a href="dashboard.html" class="nav-btn active"><span>📊</span><span>Stats</span></a>
+    <a href="settings.html" class="nav-btn"><span>⚙️</span><span>Settings</span></a>
+  </div>
+</div>
+</body>
+</html>

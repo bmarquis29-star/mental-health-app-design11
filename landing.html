@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anchor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+  :root { --accent:#3b82f6;--accent-dark:#1d4ed8;--accent-mid:#2563eb;--accent-light:#93c5fd;--accent-pale:#dbeafe;--bg:#0a0f1e;--bg-card:#0d1b35;--text:#f0f6ff; }
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body { background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;overflow:hidden;transition:background 0.4s; }
+  body::before { content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 20%,color-mix(in srgb,var(--accent) 15%,transparent) 0%,transparent 60%);pointer-events:none; }
+  .phone { width:390px;min-height:780px;background:linear-gradient(160deg,var(--bg-card) 0%,var(--bg) 70%);border-radius:44px;border:1.5px solid color-mix(in srgb,var(--accent) 25%,transparent);box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 60px color-mix(in srgb,var(--accent) 8%,transparent);position:relative;overflow:hidden;padding:64px 32px 90px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;transition:all 0.4s; }
+  .phone::before { content:'';position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,var(--accent) 4%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) 4%,transparent) 1px,transparent 1px);background-size:32px 32px;pointer-events:none; }
+  .orb { position:absolute;top:140px;left:50%;transform:translateX(-50%);width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 22%,transparent) 0%,transparent 70%);animation:orbPulse 4s ease-in-out infinite;pointer-events:none;transition:background 0.4s; }
+  @keyframes orbPulse { 0%,100%{transform:translateX(-50%) scale(1);opacity:0.6}50%{transform:translateX(-50%) scale(1.12);opacity:1} }
+  .ring { position:absolute;top:50%;left:50%;transform:translate(-50%,-42%);border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);animation:ringExpand 3s ease-out infinite;pointer-events:none; }
+  .ring:nth-child(2){width:160px;height:160px;animation-delay:0s}
+  .ring:nth-child(3){width:220px;height:220px;animation-delay:0.8s}
+  .ring:nth-child(4){width:290px;height:290px;animation-delay:1.6s}
+  @keyframes ringExpand { 0%{opacity:0.5;transform:translate(-50%,-42%) scale(0.9)}100%{opacity:0;transform:translate(-50%,-42%) scale(1.1)} }
+  .top { display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;animation:fadeUp 0.8s 0.2s ease both;opacity:0; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+  .anchor-icon { width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,var(--accent-dark),var(--accent));display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 12px 40px color-mix(in srgb,var(--accent) 45%,transparent);margin-bottom:28px;position:relative;transition:all 0.4s; }
+  .anchor-icon::after { content:'';position:absolute;inset:-3px;border-radius:26px;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent); }
+  .app-title { font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--text);letter-spacing:-0.02em;line-height:1;margin-bottom:16px;transition:color 0.4s; }
+  .app-tagline { font-size:15px;color:color-mix(in srgb,var(--accent-light) 70%,transparent);font-weight:300;text-align:center;line-height:1.6;max-width:260px;transition:color 0.4s; }
+  .features { display:flex;flex-direction:column;gap:12px;width:100%;position:relative;z-index:1;animation:fadeUp 0.8s 0.4s ease both;opacity:0; }
+  .feature-item { display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);border-radius:14px;transition:border-color 0.4s; }
+  .feature-icon { width:38px;height:38px;border-radius:10px;background:color-mix(in srgb,var(--accent-dark) 35%,transparent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:background 0.4s; }
+  .feature-text h4 { font-size:14px;color:var(--accent-pale);font-weight:500;margin-bottom:2px;transition:color 0.4s; }
+  .feature-text p { font-size:12px;color:color-mix(in srgb,var(--accent-light) 50%,transparent);font-weight:300; }
+  .bottom { width:100%;position:relative;z-index:1;animation:fadeUp 0.8s 0.6s ease both;opacity:0; }
+  .btn-start { width:100%;padding:18px;background:linear-gradient(135deg,var(--accent-dark),var(--accent-mid));border:none;border-radius:16px;color:white;font-size:16px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;letter-spacing:0.04em;box-shadow:0 8px 32px color-mix(in srgb,var(--accent) 40%,transparent);transition:all 0.25s ease;margin-bottom:14px;text-decoration:none;display:block;text-align:center; }
+  .btn-start:hover { filter:brightness(1.1);box-shadow:0 12px 40px color-mix(in srgb,var(--accent) 55%,transparent);transform:translateY(-2px); }
+  .signin-text { text-align:center;font-size:13px;color:color-mix(in srgb,var(--accent-light) 40%,transparent); }
+  .signin-text a { color:color-mix(in srgb,var(--accent-light) 65%,transparent);text-decoration:none;font-weight:500; }
+  .signin-text a:hover { color:var(--accent-light); }
+  .bottom-nav { position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:12px 0 20px;border-top:1px solid color-mix(in srgb,var(--accent) 12%,transparent);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px); }
+  .nav-btn { display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 12px;border-radius:10px;text-decoration:none;transition:background 0.2s; }
+  .nav-btn:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
+  .nav-btn span:first-child { font-size:18px; }
+  .nav-btn span:last-child { font-size:9px;color:color-mix(in srgb,var(--accent-light) 55%,transparent);letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif; }
+  .nav-btn.active span:last-child { color:var(--accent);font-weight:600; }
+</style>
+</head>
+<body>
+<script src="theme.js"></script>
+<script>initTheme();</script>
+<div class="phone">
+  <div class="orb"></div>
+  <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+  <div class="top">
+    <div class="anchor-icon">⚓</div>
+    <h1 class="app-title">Anchor</h1>
+    <p class="app-tagline">Stay grounded. Reclaim your time. Choose how you spend your life.</p>
+  </div>
+  <div class="features">
+    <div class="feature-item"><div class="feature-icon">⏸</div><div class="feature-text"><h4>Interrupt the scroll</h4><p>A gentle pause before every distraction</p></div></div>
+    <div class="feature-item"><div class="feature-icon">💙</div><div class="feature-text"><h4>No shame, just awareness</h4><p>Choice-based — you're always in control</p></div></div>
+    <div class="feature-item"><div class="feature-icon">📊</div><div class="feature-text"><h4>See your patterns</h4><p>Daily, weekly, and yearly screen time insights</p></div></div>
+  </div>
+  <div class="bottom">
+    <a href="speedbump.html" class="btn-start">Get Started →</a>
+    <p class="signin-text">Already have an account? <a href="dashboard.html">Sign in</a></p>
+  </div>
+  <div class="bottom-nav">
+    <a href="landing.html" class="nav-btn active"><span>⚓</span><span>Home</span></a>
+    <a href="speedbump.html" class="nav-btn"><span>⏸</span><span>Pause</span></a>
+    <a href="companion.html" class="nav-btn"><span>💙</span><span>Support</span></a>
+    <a href="dashboard.html" class="nav-btn"><span>📊</span><span>Stats</span></a>
+    <a href="settings.html" class="nav-btn"><span>⚙️</span><span>Settings</span></a>
+  </div>
+</div>
+</body>
+</html>
